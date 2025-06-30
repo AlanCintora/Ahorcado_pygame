@@ -22,6 +22,7 @@ pygame.display.set_caption("Ahorcado by 3 mosqueteros")
 BLANCO = (255, 255, 255)
 ROJO = (255, 0, 0)
 NEGRO = (0, 0, 0)
+COLOR_FONDO = (220, 220, 255)
 
 # Fuente para los textos
 FUENTE = pygame.font.SysFont(None, 48)
@@ -29,11 +30,25 @@ FUENTE = pygame.font.SysFont(None, 48)
 # Cargamos el sonido de error
 sonido_error = pygame.mixer.Sound("error.wav")
 
+# Cargamos musica de background 
+pygame.mixer.music.load("suspense_background.mp3")
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.3) 
+
 #######Funciones para testing#################
 #Función para mostrar texto en pantalla
 def mostrar_texto(texto, x, y):
     superficie = FUENTE.render(texto, True, NEGRO)
     ventana.blit(superficie, (x, y))
+
+# Función para dibujar cruces rojas por cada error cometido
+def dibujar_cruces(errores):
+    for i in range(errores):
+        # Cada cruz se desplaza 50 píxeles hacia la derecha
+        x = 50 + i * 60
+        y = 50
+        pygame.draw.line(ventana, ROJO, (x, y), (x + 30, y + 30), 5)
+        pygame.draw.line(ventana, ROJO, (x + 30, y), (x, y + 30), 5)
 
 # Función que inicia un nuevo juego, devolviendo estructuras iniciales
 def nuevo_juego():
@@ -49,8 +64,12 @@ def jugar():
     jugando = True
     intentos, errores = nuevo_juego()
 
+    pygame.mixer.music.load("suspense_background.mp3")
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.3) 
+
     while jugando:
-        ventana.fill(BLANCO) 
+        ventana.fill(COLOR_FONDO) 
         
         # Mostrar breve explicacion
         mostrar_texto("Ahorcado - ¡Adivina la palabra o serás colgado!", 20, 300)
