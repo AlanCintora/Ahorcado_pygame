@@ -56,6 +56,7 @@ def nuevo_juego():
     errores = 0    # Contador de errores
     return intentos, errores
 
+
 # ----------------- BUCLE PRINCIPAL -----------------
 def jugar():
     # 1. Cargar palabras desde archivo y elegir una al azar
@@ -80,8 +81,8 @@ def jugar():
             if evento.type == pygame.QUIT:
                jugando = False
             elif evento.type == pygame.KEYDOWN:
-                 if pygame.K_ESCAPE:
-                     jugando = False
+                if evento.key == pygame.K_ESCAPE:
+                    jugando = False
             
         pygame.display.update()
         pygame.display.flip()
