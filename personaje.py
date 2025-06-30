@@ -1,6 +1,8 @@
 import pygame
-    
 
+pygame.mixer.init()
+# SONIDO ERROR
+sonido_error = pygame.mixer.Sound("collition_cuphead.wav")
 def movimiento(personaje, tecla, ancho_pantalla, velocidad = 10):
     '''
     
@@ -9,13 +11,15 @@ def movimiento(personaje, tecla, ancho_pantalla, velocidad = 10):
     '''
     if tecla[pygame.K_RIGHT]:
         personaje["x"] += velocidad
-        if personaje["x"] >= ancho_pantalla - personaje["ancho"] - 20:
-            personaje["x"] = ancho_pantalla - personaje["ancho"] - 20
+        if personaje["x"] >= ancho_pantalla - personaje["ancho"] - 15:
+            personaje["x"] = ancho_pantalla - personaje["ancho"] - 15
+            sonido_error.play()
         personaje["imagen"] = crear_personaje(0, 0, accion= "walk")["imagen"]
     if tecla[pygame.K_LEFT]:
         personaje["x"] -= velocidad
         if personaje["x"] <= 0:
             personaje["x"] = 0
+            sonido_error.play()
         personaje["imagen"] = crear_personaje(0, 0, accion= "walk", vuelta= True)["imagen"]
     if not tecla[pygame.K_LEFT] and not tecla[pygame.K_RIGHT]:
         personaje["imagen"] = crear_personaje(0, 0, accion= "stay")["imagen"]

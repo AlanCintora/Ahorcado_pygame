@@ -1,6 +1,6 @@
 import pygame
 
-def texto(x, y, ruta, escalado = 1):
+def boton(x, y, ruta, escalado = 1):
     '''
     
     
@@ -19,7 +19,7 @@ def texto(x, y, ruta, escalado = 1):
         "clickeado": False
     }
 
-def dibujo_textos(texto, pantalla):
+def dibujo_textos(boton, pantalla):
     '''
     
     
@@ -28,13 +28,17 @@ def dibujo_textos(texto, pantalla):
     accion = False
     mouse = pygame.mouse.get_pos()
 
-    if texto["rect"].collidepoint(mouse):
-        if pygame.mouse.get_pressed()[0] == 1 and texto["clickeado"] == False:
+    if boton["rect"].collidepoint(mouse):
+        if pygame.mouse.get_pressed()[0] == 1 and boton["clickeado"] == False:
             accion = True
-            texto["clickeado"] = True
+            boton["clickeado"] = True
     if pygame.mouse.get_pressed()[0] == 0:
-        texto["clickeado"] = False
+        boton["clickeado"] = False
     
-    pantalla.blit(texto["imagen"], texto["rect"])
+    pantalla.blit(boton["imagen"], boton["rect"])
 
     return accion
+
+def mostrar_texto(fuente, color, texto, x, y, pantalla):
+    superficie = fuente.render(texto, True, color)
+    pantalla.blit(superficie, (x, y))
