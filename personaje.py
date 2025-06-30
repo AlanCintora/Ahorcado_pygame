@@ -9,8 +9,8 @@ def movimiento(personaje, tecla, ancho_pantalla, velocidad = 10):
     '''
     if tecla[pygame.K_RIGHT]:
         personaje["x"] += velocidad
-        if personaje["x"] >= ancho_pantalla - personaje["ancho"]:
-            personaje["x"] = ancho_pantalla - personaje["ancho"]
+        if personaje["x"] >= ancho_pantalla - personaje["ancho"] - 20:
+            personaje["x"] = ancho_pantalla - personaje["ancho"] - 20
         personaje["imagen"] = crear_personaje(0, 0, accion= "walk")["imagen"]
     if tecla[pygame.K_LEFT]:
         personaje["x"] -= velocidad
@@ -33,8 +33,9 @@ def crear_personaje(x, y, accion = "stay", alto = 0, ancho = 0, escalado = 1, vu
     elif accion == "walk":
         imagen = pygame.image.load("assets/cuphead_walk.png")
 
-    imagen_escalada_alto = int(imagen.get_rect().h * escalado)
-    imagen_escalada_ancho = int(imagen.get_rect().w * escalado)
+    rect = imagen.get_rect()
+    imagen_escalada_alto = int(rect.h * escalado)
+    imagen_escalada_ancho = int(rect.w * escalado)
 
     if (escalado == 1 and alto != 0 and ancho != 0):
         imagen = pygame.transform.scale(
@@ -50,8 +51,8 @@ def crear_personaje(x, y, accion = "stay", alto = 0, ancho = 0, escalado = 1, vu
         "imagen": imagen.convert_alpha(),
         "x": x,
         "y": y,
-        "ancho": imagen.get_rect().w,
-        "alto": imagen.get_rect().h,
+        "ancho": rect.w,
+        "alto": rect.h,
     }
 
 def dibujar_personaje(pantalla, personaje):

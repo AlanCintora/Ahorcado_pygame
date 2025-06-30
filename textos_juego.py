@@ -12,12 +12,11 @@ def texto(x, y, ruta, escalado = 1):
     image_escalada = pygame.transform.scale(image, (int(ancho * escalado), int(alto * escalado)))
     rectangulo = image_escalada.get_rect()
     rectangulo.topleft = (x, y)
-    clickeado = False
 
     return {
         "imagen": image_escalada.convert_alpha(),
         "rect": rectangulo,
-        "clickeado": clickeado
+        "clickeado": False
     }
 
 def dibujo_textos(texto, pantalla):
@@ -36,6 +35,6 @@ def dibujo_textos(texto, pantalla):
     if pygame.mouse.get_pressed()[0] == 0:
         texto["clickeado"] = False
     
-    pantalla.blit(texto["imagen"], (texto["rect"].x, texto["rect"].y))
+    pantalla.blit(texto["imagen"], texto["rect"])
 
     return accion

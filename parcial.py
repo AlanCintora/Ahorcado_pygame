@@ -22,11 +22,10 @@ BLANCO = (128, 128, 128)
 # Cargar imagen del personaje (debe estar en el mismo directorio o indicar ruta completa)
 
 error = 0
-estado = True
 estado_jugar = False
 # Cargar personaje (usá tu imagen, por ejemplo: "personaje.png")
-personaje = crear_personaje(x = 500, y= 10)
-boton_jugar = texto(x= 300,y= 300, ruta ="assets/boton_empezar.png")
+personaje = crear_personaje(x = 200, y= 200)
+boton_jugar = texto(x= 150,y= 150, ruta ="assets/boton_empezar.png")
 
 # Bucle principal
 ejecutando = True
@@ -39,30 +38,29 @@ while ejecutando:
                 sys.exit()
 
     if estado_jugar:
+        teclas = pygame.key.get_pressed()
         if evento.type == pygame.KEYDOWN:
             error += 1
             if evento.key == pygame.K_ESCAPE:
                 ejecutando = False
 
         # Movimiento con teclado
-        teclas = pygame.key.get_pressed()
         movimiento(personaje, teclas, ancho_pantalla = ANCHO)
 
         if error == 7:
-            estado = False
+            error = 0
 
         # Dibujar todo
-        
         dibujar_personaje(pantalla, personaje)
         dibujar_ahorcado(
                 pantalla, crear_ahorcado(fallo = error, x = 400, y = 154))
-    
     else:
-        dibujo_textos(boton_jugar, pantalla)
+        if dibujo_textos(boton_jugar, pantalla):
+             estado_jugar = True
 
-    pantalla.fill(BLANCO)
-    pygame.display.flip()
     pygame.display.update()
+    pygame.display.flip()
+    pantalla.fill(BLANCO)
     RELOJ.tick(30)
 
 pygame.quit()
