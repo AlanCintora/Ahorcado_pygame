@@ -10,7 +10,11 @@
 # - El código debe estar comentado línea por línea.
 # - Solo las partes del cuerpo deben contar como errores, no el soporte del ahorcado.
 
+
 import pygame
+from personaje import *
+from ahorcado import *
+from colores import *
 import random
 
 archivo = "archivo_palabras.txt"
@@ -148,11 +152,14 @@ def mostrar_texto(texto, x, y, color=NEGRO):
 # sonido_error = pygame.mixer.Sound("error.wav")  # Asegurate de tener este archivo
 
 # ----------------- BUCLE PRINCIPAL -----------------
+
+estado_jugar = False
+
+personaje = crear_personaje(x = 200, y= 200)
+boton_jugar = boton(x= 150,y= 150, ruta ="assets/boton_empezar.png")
+
+
 def jugar():
-    
-    x_inicial = 50
-    y = 150
-    espacio = 40
     
     errores = 0
 
@@ -203,12 +210,18 @@ def jugar():
             
                 
                 
-                
+        if estado_jugar:
+            if jugar(archivo, evento, personaje, ANCHO, pantalla, fuente = FUENTE) == False:
+                ejecutando == False
+        else:
+            mostrar_texto(FUENTE, NEGRO, "Ahorcado - ¡Adivina la palabra o seras colgado!", 0, 0, pantalla)
+            if dibujo_textos(boton_jugar, pantalla):
+                estado_jugar = True      
         
         
         pantalla.fill(BLANCO)
         
-        dibujar_juego("imagenes\\fondo.png", palabra_random, letras_presionadas, errores, mensaje )
+        dibujar_juego("imagenes\\fondo_juego.png", palabra_random, letras_presionadas, errores, mensaje )
         
         
         # mostrar_texto("Letras: " + " ".join(letras_presionadas), 50, 50, ROJO)
