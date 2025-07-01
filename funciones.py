@@ -70,7 +70,7 @@ def boton(x, y, ruta, escalado = 1):
         "clickeado": False
     }
 
-def dibujo_textos(boton, pantalla):
+def dibujo_boton(boton, pantalla):
     '''
     
     
@@ -129,35 +129,39 @@ def dibujar_juego(fuente, palabra, letras_presionadas, pantalla, mensaje=""):
     if mensaje:
         mostrar_texto(fuente, ROJO, mensaje, 50, 400, pantalla)
 
-def jugar(evento, letra, palabra_random, letras_presionadas, duracion_msj, personaje, ancho_pantalla, pantalla, fuente, mensaje, errores):
+def jugar(evento, letra , palabra_random, letras_presionadas, duracion_msj, personaje, ahorcado, ancho_pantalla, pantalla, fuente, mensaje):
     '''
      
      
      
     '''
+    tiempo_acual = pygame.time.get_ticks()
+    tiempo_mensaje = 0
+
     if letra != "" and verificar_letra(letra, palabra_random, letras_presionadas):
         mensaje = "CRACK!"
     elif letra != "" and verificar_letra(letra, palabra_random, letras_presionadas) == False:
         mensaje = "MAL AHI!"
-        errores += 1
-    tiempo_mensaje = pygame.time.get_ticks()
-    
+        ahorcado["errores"] += 1
+        print(ahorcado["errores"])
+
     if evento.type == pygame.KEYDOWN:
         if evento.key == pygame.K_ESCAPE:
             pygame.quit()
                 
-    if mensaje and pygame.time.get_ticks() - tiempo_mensaje > duracion_msj:
+    if mensaje and tiempo_acual - tiempo_mensaje > duracion_msj:
         mensaje = ""
+        tiempo_mensaje = tiempo_acual
         
     # Movimiento con teclado
-    teclas = pygame.key.get_pressed()
-    movimiento(personaje, teclas, ancho_pantalla)
+    movimiento(personaje, pygame.key.get_pressed(), ancho_pantalla)
 
     # Dibujar todo
-    dibujar_juego(fuente, palabra_random, letras_presionadas, pantalla)
     dibujar_personaje(pantalla, personaje)
     dibujar_ahorcado(
-        pantalla, crear_ahorcado(fallo = errores, x = 400, y = 154)), (0,0)
+        pantalla, ahorcado, ahorcado["errores"])
+    dibujar_cruces(ahorcado["errores"], pantalla, VERDE)
+    dibujar_juego(fuente, palabra_random, letras_presionadas, pantalla)
 
     palabra_mostrada = [letra if letra in letras_presionadas else "_" for letra in palabra_random]
     if "_" not in palabra_mostrada:
@@ -166,7 +170,7 @@ def jugar(evento, letra, palabra_random, letras_presionadas, duracion_msj, perso
         pygame.time.wait(2000)
         pygame.quit()
     # Verificar derrota
-    if errores >= 7:
+    if ahorcado["errores"] == 6:
         mostrar_texto(fuente, NEGRO, "¡Perdiste! Era: " + palabra_random, 50, 500, pantalla)
         pygame.display.update()
         pygame.time.wait(2000)

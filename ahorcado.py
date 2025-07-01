@@ -1,12 +1,12 @@
 import pygame
 
-def crear_ahorcado(x, y, fallo: int, alto = 0, ancho = 0, escalado = 1):
+def crear_ahorcado(x, y, errores = 0, alto = 0, ancho = 0, escalado = 1):
     '''
     
     
     
     '''
-    imagen = pygame.image.load(f"assets/ahorcado_error0{fallo}.png")
+    imagen = pygame.image.load(f"assets/ahorcado_error0{errores}.png")
 
     imagen_escalada_alto = int(imagen.get_rect().h * escalado)
     imagen_escalada_ancho = int(imagen.get_rect().w * escalado)
@@ -23,14 +23,17 @@ def crear_ahorcado(x, y, fallo: int, alto = 0, ancho = 0, escalado = 1):
         "imagen": imagen,
         "x": x,
         "y": y,
+        "errores": 0,
         "ancho": imagen.get_rect().w,
         "alto": imagen.get_rect().h,
     }
 
-def dibujar_ahorcado(pantalla, ahorcado):
+def dibujar_ahorcado(pantalla, ahorcado, errores):
     '''
     
     
     
     '''
-    pantalla.blit(ahorcado["imagen"], (ahorcado["x"], ahorcado["y"]))
+    pantalla.blit(
+                crear_ahorcado(ahorcado["x"], ahorcado["y"], errores)["imagen"],
+                (ahorcado["x"], ahorcado["y"]))
