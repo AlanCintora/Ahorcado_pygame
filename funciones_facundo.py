@@ -112,8 +112,8 @@ def mostrar_texto(fuente, color, texto, x, y, pantalla):
 
 #     return False
 
-def dibujar_juego(fuente, palabra, letras_presionadas, errores, pantalla, mensaje=""):
-    # Llenar fondo, mostrar palabra oculta, letras ingresadas y dibujar estructura y cuerpo
+def dibujar_juego(fuente, palabra, letras_presionadas, pantalla, mensaje=""):
+    # Llenar fondo, mostrar palabra oculta, letras ingresadas
     
     for i, letra in enumerate(palabra):
         if letra in letras_presionadas:
@@ -129,66 +129,45 @@ def dibujar_juego(fuente, palabra, letras_presionadas, errores, pantalla, mensaj
     if mensaje:
         mostrar_texto(fuente, ROJO, mensaje, 50, 400, pantalla)
 
+def jugar(evento, letra, palabra_random, letras_presionadas, duracion_msj, personaje, ancho_pantalla, pantalla, fuente, mensaje, errores):
+    '''
+     
+     
+     
+    '''
+    if letra != "" and verificar_letra(letra, palabra_random, letras_presionadas):
+        mensaje = "CRACK!"
+    elif letra != "" and verificar_letra(letra, palabra_random, letras_presionadas) == False:
+        mensaje = "MAL AHI!"
+        errores += 1
+    tiempo_mensaje = pygame.time.get_ticks()
+    
+    if evento.type == pygame.KEYDOWN:
+        if evento.key == pygame.K_ESCAPE:
+            pygame.quit()
+                
+    if mensaje and pygame.time.get_ticks() - tiempo_mensaje > duracion_msj:
+        mensaje = ""
+        
+    # Movimiento con teclado
+    teclas = pygame.key.get_pressed()
+    movimiento(personaje, teclas, ancho_pantalla)
+
+    # Dibujar todo
+    dibujar_juego(fuente, palabra_random, letras_presionadas, pantalla)
+    dibujar_personaje(pantalla, personaje)
     dibujar_ahorcado(
         pantalla, crear_ahorcado(fallo = errores, x = 400, y = 154)), (0,0)
 
-def jugar(archivo, evento, personaje, ancho_pantalla, pantalla, fuente):
-    '''
-     
-     
-     
-    '''
-    errores = 0
-
-    letras_presionadas = []
-    
-    lista_palabras = cargar_palabras(archivo)
-    
-    palabra_random = elegir_palabra(lista_palabras)
-     
-    mensaje = ""
-    tiempo_mensaje = 0
-    DURACION_MENSAJE = 1000
-
-    for evento in pygame.event.get():
-        if evento.type == pygame.QUIT:
-            sys.exit()
-            
-    teclas = pygame.key.get_pressed()
-    if evento.type == pygame.KEYDOWN:
-        letra = evento.unicode.upper()
-        if evento.key == pygame.K_ESCAPE:
-            return False
-
-        if verificar_letra(letra, palabra_random, letras_presionadas):
-            mensaje = "CRACK!"
-        else:
-            mensaje = "MAL AHI!"
-            errores += 1
-        tiempo_mensaje = pygame.time.get_ticks()
-                
-    if mensaje and pygame.time.get_ticks() - tiempo_mensaje > DURACION_MENSAJE:
-        mensaje = ""
-        
-        # Movimiento con teclado
-        movimiento(personaje, teclas, ancho_pantalla)
-
-        # Dibujar todo
-        dibujar_personaje(pantalla, personaje)
-        dibujar_juego(fuente, palabra_random, letras_presionadas, errores, pantalla)
-        
-        palabra_mostrada = [letra if letra in letras_presionadas else "_" for letra in palabra_random]
-        if "_" not in palabra_mostrada:
-            mostrar_texto(fuente, NEGRO, "¡Ganaste!", 50, 500, pantalla)
-            pygame.display.update()
-            pygame.time.wait(2000)
-
-            return False
-
-        # Verificar derrota
-        if errores >= 7:
-            mostrar_texto(fuente, NEGRO, "¡Perdiste! Era: " + palabra_random, 50, 500, pantalla)
-            pygame.display.update()
-            pygame.time.wait(2000)
-
-            return False
+    palabra_mostrada = [letra if letra in letras_presionadas else "_" for letra in palabra_random]
+    if "_" not in palabra_mostrada:
+        mostrar_texto(fuente, NEGRO, "¡Ganaste!", 50, 500, pantalla)
+        pygame.display.update()
+        pygame.time.wait(2000)
+        pygame.quit()
+    # Verificar derrota
+    if errores >= 7:
+        mostrar_texto(fuente, NEGRO, "¡Perdiste! Era: " + palabra_random, 50, 500, pantalla)
+        pygame.display.update()
+        pygame.time.wait(2000)
+        pygame.quit()
