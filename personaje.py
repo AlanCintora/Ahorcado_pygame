@@ -2,35 +2,16 @@ import pygame
 
 pygame.mixer.init()
 # SONIDO ERROR
-sonido_error = pygame.mixer.Sound("collition_cuphead.wav")
-def movimiento(personaje, tecla, ancho_pantalla, velocidad = 10):
+sonido_collision = pygame.mixer.Sound("assets/collition_cuphead.wav")
+sonido_collision.set_volume(0.1)
+def crear_personaje(x: int, y: int, accion: str = "stay", alto: int = 0, ancho: int = 0, escalado: int|float = 1, vuelta: bool = False) -> dict:
     '''
+    Crea al personaje permitiendo pasar sus coordenadas donde vaya a
+    posicionarse, el estado del personaje si esta quieto o caminando,
+    la posibilidad de cambiar su alto y ancho, al igual que su escalado, y,
+    por ultimo, si se giró.
     
-    
-    
-    '''
-    if tecla[pygame.K_RIGHT]:
-        personaje["x"] += velocidad
-        if personaje["x"] >= ancho_pantalla - personaje["ancho"] - 15:
-            personaje["x"] = ancho_pantalla - personaje["ancho"] - 15
-            sonido_error.play()
-        personaje["imagen"] = crear_personaje(0, 0, accion= "walk")["imagen"]
-    if tecla[pygame.K_LEFT]:
-        personaje["x"] -= velocidad
-        if personaje["x"] <= 0:
-            personaje["x"] = 0
-            sonido_error.play()
-        personaje["imagen"] = crear_personaje(0, 0, accion= "walk", vuelta= True)["imagen"]
-    if not tecla[pygame.K_LEFT] and not tecla[pygame.K_RIGHT]:
-        personaje["imagen"] = crear_personaje(0, 0, accion= "stay")["imagen"]
-    if tecla[pygame.K_LEFT] and tecla[pygame.K_RIGHT]:
-        personaje["imagen"] = crear_personaje(0, 0, accion= "stay")["imagen"]
-
-def crear_personaje(x, y, accion = "stay", alto = 0, ancho = 0, escalado = 1, vuelta = False):
-    '''
-    
-    
-    
+    Return dict
     '''
     if accion == "stay":
         imagen = pygame.image.load("assets/cuphead_stay.png")
@@ -59,10 +40,34 @@ def crear_personaje(x, y, accion = "stay", alto = 0, ancho = 0, escalado = 1, vu
         "alto": rect.h,
     }
 
-def dibujar_personaje(pantalla, personaje):
+def movimiento(personaje: dict, tecla: pygame.key, ancho_pantalla: int|float, velocidad: int|float = 10) -> None:
     '''
+    Mueve al personaje dependiendo de las teclas presionadas (flechas derecha e izquierda),
+    pudiendo establecer su velocidad.
     
+    No return
+    '''
+    if tecla[pygame.K_RIGHT]:
+        personaje["x"] += velocidad
+        if personaje["x"] >= ancho_pantalla - personaje["ancho"] - 15:
+            personaje["x"] = ancho_pantalla - personaje["ancho"] - 15
+            sonido_collision.play()
+        personaje["imagen"] = crear_personaje(0, 0, accion= "walk")["imagen"]
+    if tecla[pygame.K_LEFT]:
+        personaje["x"] -= velocidad
+        if personaje["x"] <= 0:
+            personaje["x"] = 0
+            sonido_collision.play()
+        personaje["imagen"] = crear_personaje(0, 0, accion= "walk", vuelta= True)["imagen"]
+    if not tecla[pygame.K_LEFT] and not tecla[pygame.K_RIGHT]:
+        personaje["imagen"] = crear_personaje(0, 0, accion= "stay")["imagen"]
+    if tecla[pygame.K_LEFT] and tecla[pygame.K_RIGHT]:
+        personaje["imagen"] = crear_personaje(0, 0, accion= "stay")["imagen"]
+
+def dibujar_personaje(pantalla: pygame.Surface, personaje: dict) -> None:
+    '''
+    Dibuja en pantalla al personaje
     
-    
+    No return
     '''
     pantalla.blit(personaje["imagen"], (personaje["x"], personaje["y"]))
