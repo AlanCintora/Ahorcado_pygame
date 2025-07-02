@@ -42,13 +42,13 @@ def verificar_letra(letra, palabra, letras_adivinadas):
     return False
 
 ### alan
-def dibujar_cruces(errores, pantalla, color):
+def dibujar_cruces(errores, pantalla, ROJO):
     for i in range(errores):
         # Cada cruz se desplaza 50 píxeles hacia la derecha
         x = 50 + i * 60
         y = 50
-        pygame.draw.line(pantalla, color, (x, y), (x + 30, y + 30), 5)
-        pygame.draw.line(pantalla, color, (x + 30, y), (x, y + 30), 5)
+        pygame.draw.line(pantalla, ROJO, (x, y), (x + 30, y + 30), 5)
+        pygame.draw.line(pantalla, ROJO, (x + 30, y), (x, y + 30), 5)
 
 ### matias
 def boton(x, y, ruta, escalado = 1):
@@ -160,7 +160,7 @@ def jugar(evento, letra , palabra_random, letras_presionadas, duracion_msj, pers
     dibujar_personaje(pantalla, personaje)
     dibujar_ahorcado(
         pantalla, ahorcado, ahorcado["errores"])
-    dibujar_cruces(ahorcado["errores"], pantalla, VERDE)
+    dibujar_cruces(ahorcado["errores"], pantalla, ROJO)
     dibujar_juego(fuente, palabra_random, letras_presionadas, pantalla)
 
     palabra_mostrada = [letra if letra in letras_presionadas else "_" for letra in palabra_random]
@@ -175,3 +175,28 @@ def jugar(evento, letra , palabra_random, letras_presionadas, duracion_msj, pers
         pygame.display.update()
         pygame.time.wait(2000)
         pygame.quit()
+
+
+
+
+
+# def procesar_tecla(letra, palabra, letras_adivinadas, errores, sonido_error):
+#     """
+#     Procesa una letra ingresada por el jugador.
+#     - letra: la tecla presionada
+#     - palabra_secreta: palabra que debe adivinarse
+#     - letras_adivinadas: lista de letras ya ingresadas
+#     - errores: cantidad de errores hasta ahora
+#     - sonido_error: sonido a reproducir si se equivoca
+#     Devuelve: (acierto: bool, errores: int)
+#     """
+#     letra = letra.upper()
+#     if letra.isalpha() and letra not in letras_adivinadas:
+#         letras_adivinadas.append(letra)
+#         if letra in palabra_secreta:
+#             return True, errores
+#         else:
+#             sonido_error.play()
+#             errores += 1
+#     return False, errores
+

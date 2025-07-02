@@ -7,6 +7,9 @@ from colores import *
 
 # Inicializar Pygame
 pygame.init()
+pygame.mixer.init()
+
+# Archivo donde se encuentran las palabras
 archivo = "archivo_palabras.txt"
 
 # Crear pantalla
@@ -18,6 +21,15 @@ pygame.display.set_caption("El Ahorcado by LosTresMosqueteros")
 # ICONO
 icono = pygame.image.load("assets/icono.png")
 pygame.display.set_icon(icono)
+
+# Cargamos musica de background 
+pygame.mixer.music.load("assets\suspense_background.mp3")
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.5)
+
+# Cargamos el sonido de error
+sonido_error = pygame.mixer.Sound("assets\error.wav")
+pygame.mixer.music.set_volume(0.3)
 
 # FUENTE
 FUENTE = pygame.font.SysFont(None, 48)
