@@ -42,7 +42,7 @@ palabra_random = elegir_palabra(lista_palabras)
 # Errores cometidos
 errores = 0
 
-# Mensaje por acertas, errar o volver a presionar
+# Mensaje por acertar, errar o volver a presionar
 mensaje = ""
 DURACION_MSJ = 3000
 tiempo_mensaje = 0

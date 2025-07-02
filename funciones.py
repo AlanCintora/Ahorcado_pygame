@@ -112,7 +112,7 @@ def dibujo_boton(boton: dict, pantalla : pygame.Surface) -> bool:
 
     return accion
 
-def mostrar_texto(fuente: pygame.font, color: tuple, texto: str, x: int, y: int, pantalla: pygame.surface) -> None:
+def mostrar_texto(fuente: pygame.font, color: tuple, texto: str, x: int, y: int, pantalla: pygame.Surface) -> None:
     '''
     Dibuja el texto en pantalla
     
@@ -121,7 +121,7 @@ def mostrar_texto(fuente: pygame.font, color: tuple, texto: str, x: int, y: int,
     superficie = fuente.render(texto, True, color)
     pantalla.blit(superficie, (x, y))
 
-def main_texto(fuente_titulo: pygame.font, fuente_normal: pygame.font, pantalla: pygame.surface) -> None:
+def main_texto(fuente_titulo: pygame.font, fuente_normal: pygame.font, pantalla: pygame.Surface) -> None:
     '''
     Dibuja en pantalla los textos del menu del juego
     
@@ -132,7 +132,7 @@ def main_texto(fuente_titulo: pygame.font, fuente_normal: pygame.font, pantalla:
     mostrar_texto(fuente_normal, NEGRO, "Solo tenes 6 intentos asi que usalos sabiamente o...", 90, 175, pantalla)
     mostrar_texto(fuente_titulo, NEGRO, "SERAS COLGADO", 240, 240, pantalla)
 
-def dibujar_juego(fuente: pygame.font, palabra: str, letras_presionadas: list, pantalla: pygame.surface, mensaje: str):
+def dibujar_juego(fuente: pygame.font, palabra: str, letras_presionadas: list, pantalla: pygame.Surface, mensaje: str) -> None:
     '''
     Dibuja los guiones de la palabra oculta, las teclas presionadas,
     cambia los guiones por las letras que se encuentran en la palabra y
@@ -152,7 +152,7 @@ def dibujar_juego(fuente: pygame.font, palabra: str, letras_presionadas: list, p
     if mensaje:
         mostrar_texto(fuente, ROJO, mensaje, 185, 400, pantalla)
 
-def resultado_juego(errores: int, palabra_mostrada: list, palabra_random: str, fuente: pygame.font, pantalla: pygame.surface):
+def resultado_juego(errores: int, palabra_mostrada: list, palabra_random: str, fuente: pygame.font, pantalla: pygame.Surface) -> None:
     '''
     Dibuja un texto dependiendo de si se ganó o perdió, emitiendo un sonido
     en cada caso
@@ -178,7 +178,7 @@ def resultado_juego(errores: int, palabra_mostrada: list, palabra_random: str, f
 
 def jugar(evento: pygame.event, letra: pygame.key, palabra_random: str, letras_presionadas: list,
         tiempo_actual: pygame.time, duracion_mensaje: int, tiempo_mensaje: int,
-        personaje: dict, ahorcado: dict, ancho_pantalla: int, pantalla: pygame.surface,
+        personaje: dict, ahorcado: dict, ancho_pantalla: int, pantalla: pygame.Surface,
         fuente: pygame.font, mensaje: str) -> None:
     '''
     Encargado del funcionamiento principal del juego y dibujo del mismo

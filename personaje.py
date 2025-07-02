@@ -2,8 +2,8 @@ import pygame
 
 pygame.mixer.init()
 # SONIDO ERROR
-sonido_error = pygame.mixer.Sound("assets/collition_cuphead.wav")
-sonido_error.set_volume(0.1)
+sonido_collision = pygame.mixer.Sound("assets/collition_cuphead.wav")
+sonido_collision.set_volume(0.1)
 def crear_personaje(x: int, y: int, accion: str = "stay", alto: int = 0, ancho: int = 0, escalado: int|float = 1, vuelta: bool = False) -> dict:
     '''
     Crea al personaje permitiendo pasar sus coordenadas donde vaya a
@@ -51,20 +51,20 @@ def movimiento(personaje: dict, tecla: pygame.key, ancho_pantalla: int|float, ve
         personaje["x"] += velocidad
         if personaje["x"] >= ancho_pantalla - personaje["ancho"] - 15:
             personaje["x"] = ancho_pantalla - personaje["ancho"] - 15
-            sonido_error.play()
+            sonido_collision.play()
         personaje["imagen"] = crear_personaje(0, 0, accion= "walk")["imagen"]
     if tecla[pygame.K_LEFT]:
         personaje["x"] -= velocidad
         if personaje["x"] <= 0:
             personaje["x"] = 0
-            sonido_error.play()
+            sonido_collision.play()
         personaje["imagen"] = crear_personaje(0, 0, accion= "walk", vuelta= True)["imagen"]
     if not tecla[pygame.K_LEFT] and not tecla[pygame.K_RIGHT]:
         personaje["imagen"] = crear_personaje(0, 0, accion= "stay")["imagen"]
     if tecla[pygame.K_LEFT] and tecla[pygame.K_RIGHT]:
         personaje["imagen"] = crear_personaje(0, 0, accion= "stay")["imagen"]
 
-def dibujar_personaje(pantalla: pygame.surface, personaje: dict) -> None:
+def dibujar_personaje(pantalla: pygame.Surface, personaje: dict) -> None:
     '''
     Dibuja en pantalla al personaje
     

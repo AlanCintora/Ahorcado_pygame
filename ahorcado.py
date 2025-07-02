@@ -1,6 +1,6 @@
 import pygame
 
-def crear_ahorcado(x: int, y: int, errores:int = 0, alto:int|float = 0, ancho:int|float = 0, escalado:int|float = 1):
+def crear_ahorcado(x: int, y: int, errores:int = 0, alto:int|float = 0, ancho:int|float = 0, escalado:int|float = 1) -> dict:
     '''
     Crea al ahorcado permitiendo pasar sus coordenadas donde vaya a
     posicionarse, la posibilidad de cambiar su ancho y largo, al igual
@@ -29,11 +29,11 @@ def crear_ahorcado(x: int, y: int, errores:int = 0, alto:int|float = 0, ancho:in
         "alto": imagen.get_rect().h,
     }
 
-def dibujar_ahorcado(pantalla: pygame.Surface, ahorcado: dict, errores: int):
+def dibujar_ahorcado(pantalla: pygame.Surface, ahorcado: dict, errores: int) -> None:
     '''
     Dibuja en pantalla al ahorcado, cambiando de imagen si se cometen errores
 
-    No retorna nada
+    No return
     '''
     pantalla.blit(crear_ahorcado(ahorcado["x"], ahorcado["y"], errores)["imagen"],
                 (ahorcado["x"], ahorcado["y"]))
