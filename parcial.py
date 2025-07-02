@@ -20,12 +20,11 @@ icono = pygame.image.load("assets/icono.png")
 pygame.display.set_icon(icono)
 
 # FUENTE
-FUENTE = pygame.font.SysFont(None, 48)
+FUENTE_TITULO = pygame.font.SysFont(None, 48, bold = True)
+FUENTE_NORMAL = pygame.font.SysFont(None, 36)
 
 #FOTOGRAMAS
 RELOJ = pygame.time.Clock()
-
-# Cargar imagen del personaje (debe estar en el mismo directorio o indicar ruta completa)
 
 letras_presionadas = []
 
@@ -34,21 +33,23 @@ lista_palabras = cargar_palabras(archivo)
 palabra_random = elegir_palabra(lista_palabras)
 
 errores = 0
-mensaje = ""
+mensaje = "hola"
 
-tiempo_mensaje = 0
-DURACION_MENSAJE = 1000
+DURACION_MSJ = 3000
 
-estado_jugar = False
 # Cargar personaje (usá tu imagen, por ejemplo: "personaje.png")
-personaje = crear_personaje(x = 200, y= 200)
-ahorcado = crear_ahorcado(x = 400, y = 154)
-boton_jugar = boton(x= 150,y= 150, ruta ="assets/boton_empezar.png")
+personaje = crear_personaje(x = 200, y= 450)
+ahorcado = crear_ahorcado(x = 8, y = 80)
+boton_jugar = boton(x= 275,y= 410, ruta ="assets/boton_empezar.png")
 
 # Bucle principal
 ejecutando = True
+estado_jugar = False
 
 while ejecutando:
+
+    tiempo_actual = pygame.time.get_ticks()
+
     letra = ""
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
@@ -56,12 +57,16 @@ while ejecutando:
             pygame.quit()
             sys.exit()
         if evento.type == pygame.KEYDOWN:
-            letra = evento.unicode.upper()
+            if evento.unicode.isalpha():
+                letra = evento.unicode.upper()
+            if evento.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
 
     if estado_jugar:
-        jugar(evento, letra, palabra_random, letras_presionadas, DURACION_MENSAJE, personaje, ahorcado, ANCHO, pantalla, fuente = FUENTE, mensaje = mensaje)
+        jugar(evento, letra, palabra_random, letras_presionadas, DURACION_MSJ, personaje, ahorcado, ANCHO, pantalla, fuente = FUENTE_NORMAL, mensaje = mensaje)
     else:
-        mostrar_texto(FUENTE, NEGRO, "Ahorcado - ¡Adivina la palabra o seras colgado!", 0, 0, pantalla)
+        main_texto(pantalla = pantalla, fuente_titulo = FUENTE_TITULO, fuente_normal = FUENTE_NORMAL)
         if dibujo_boton(boton_jugar, pantalla):
             estado_jugar = True
 

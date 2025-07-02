@@ -35,5 +35,5 @@ def dibujar_ahorcado(pantalla, ahorcado, errores):
     
     '''
     pantalla.blit(
-                crear_ahorcado(ahorcado["x"], ahorcado["y"], errores)["imagen"],
+                ahorcado["imagen"],
                 (ahorcado["x"], ahorcado["y"]))
